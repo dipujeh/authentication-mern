@@ -11,7 +11,7 @@ const Dashboard = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/api/getdata", {
+      const response = await axios.get("https://authentication-mern-ca9l.onrender.com/api/getdata", {
         withCredentials: true,
       });
       setUser(response.data.user);
@@ -30,7 +30,7 @@ const Dashboard = () => {
   const logout = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8001/api/logout",
+        "https://authentication-mern-ca9l.onrender.com/api/logout",
         {},
         { withCredentials: true },
       );

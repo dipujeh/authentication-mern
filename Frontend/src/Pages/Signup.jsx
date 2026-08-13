@@ -27,7 +27,7 @@ const Signup = () => {
         formData.append("password",password);
         formData.append("profileImg",backendImage);
       const response = await axios.post(
-        "http://localhost:8001/api/signup",formData,
+        "https://authentication-mern-ca9l.onrender.com/api/signup",formData,
         {
           withCredentials: true
           // headers:{"Content-Type":"multipart/form-data"}
