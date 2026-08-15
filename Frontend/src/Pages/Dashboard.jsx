@@ -95,6 +95,7 @@ const Dashboard = () => {
       </div>
 
       <div className="w-full ">
+        <img src={user.profileImg} alt="user" className="text-center w-100 h-100 rounded-full border-amber-100"/>
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mt-12 sm:mt-16">
           {getGreeting()},{" "}
           <span className="text-purple-600 capitalize">{user.firstName}</span>{" "}
