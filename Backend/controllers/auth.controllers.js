@@ -5,21 +5,13 @@ import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
   try {
-    const { firstName, lastName, course, email, password} =
-      req.body;
+    const { firstName, lastName, course, email, password } = req.body;
 
-      // console.log(req.body);
-      // console.log(req.file);
-      
-      // call cloudinary
-
-      let profileImage;
-      if(req.file){
-        profileImage= await uploadImageOnCloudinary(req.file.path)
-      }
+    // console.log(req.body);
+    // console.log(req.file);
 
     // Check Email
-    let existUser = await User.findOne({ email });
+    const existUser = await User.findOne({ email });
 
     if (existUser) {
       return res.status(409).json({
@@ -31,6 +23,13 @@ export const signup = async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
+    // image upload on cloudinary
+    let profileImage;
+
+    if (req.file) {
+      profileImage = await uploadImageOnCloudinary(req.file.path);
+    }
+
     // Create User
     const user = await User.create({
       firstName,
@@ -38,7 +37,7 @@ export const signup = async (req, res) => {
       course,
       email,
       password: hashPassword,
-      profileImg:profileImage,
+      profileImg: profileImage,
     });
 
     // genrate token
@@ -48,13 +47,14 @@ export const signup = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "none",
     });
 
     res.status(201).json({
       message: "Signup Successfully",
-      user: { firstName, lastName, course, email, profileImg:profileImage },
+      user: { firstName, lastName, course, email, profileImg: profileImage },
     });
   } catch (error) {
     res.status(500).json({
@@ -87,8 +87,9 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "none",
     });
 
     res.status(200).json({
@@ -113,10 +114,11 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    res.clearCookie("token", {
+    res.clearCookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "none",
     });
 
     res.status(200).json({
@@ -136,7 +138,7 @@ export const getData = async (req, res) => {
   try {
     const userId = req.userId;
     // console.log(userId);
-    
+
     if (!userId) {
       return res.status(400).json({ message: "user id is not found" });
     }
@@ -149,6 +151,7 @@ export const getData = async (req, res) => {
 
     res.status(200).json({ user });
   } catch (error) {
+    console.error("getData error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
