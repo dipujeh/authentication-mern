@@ -11,9 +11,12 @@ const Dashboard = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("https://authentication-mern-ca9l.onrender.com/api/getdata", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://authentication-mern-ca9l.onrender.com/api/getdata",
+        {
+          withCredentials: true,
+        },
+      );
       setUser(response.data.user);
 
       // console.log(response.data.user);
@@ -95,8 +98,12 @@ const Dashboard = () => {
       </div>
 
       <div className="w-full  flex justify-center items-center flex-col overflow-hidden">
-        <div className="text-center flex justify-center items-center w-80 h-80 rounded-full border-amber-100">
-        <img src={user.profileImg} alt="user" className="object-cover "/>
+        <div className="w-80 h-80 rounded-full overflow-hidden border-2 border-amber-100">
+          <img
+            src={user.profileImg}
+            alt="user"
+            className="w-full h-full object-cover"
+          />
         </div>
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mt-12 sm:mt-16">
           {getGreeting()},{" "}
@@ -107,8 +114,7 @@ const Dashboard = () => {
           Welcome back! Here's what's happening today.
         </p>
       </div>
-          <Outlet />
- 
+      <Outlet />
     </div>
   );
 };
