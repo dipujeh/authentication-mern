@@ -94,9 +94,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="w-full  flex justify-center items-center flex-col">
-        <div className="text-center flex justify-center items-center w-100 h-100 rounded-full border-amber-100">
-        <img src={user.profileImg} alt="user" className="object-cover overflow-hidden"/>
+      <div className="w-full  flex justify-center items-center flex-col overflow-hidden">
+        <div className="text-center flex justify-center items-center w-80 h-80 rounded-full border-amber-100">
+        <img src={user.profileImg} alt="user" className="object-cover "/>
         </div>
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mt-12 sm:mt-16">
           {getGreeting()},{" "}
