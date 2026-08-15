@@ -13,25 +13,31 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-   const [FrontendImage,setFrontendImage] = useState(dp);
-   const [backendImage,setBackendImage] = useState(null);
+  const [FrontendImage, setFrontendImage] = useState(dp);
+  const [backendImage, setBackendImage] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   const signupHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       let formData = new FormData();
-        formData.append("firstName",firstName);
-        formData.append("lastName",lastName);
-        formData.append("course",course);
-        formData.append("email",email);
-        formData.append("password",password);
-        formData.append("profileImg",backendImage);
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("course", course);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (backendImage) {
+        formData.append("profileImg", backendImage);
+      }
       const response = await axios.post(
-        "https://authentication-mern-ca9l.onrender.com/api/signup",formData,
+        "https://authentication-mern-ca9l.onrender.com/api/signup",
+        formData,
         {
-          withCredentials: true
+          withCredentials: true,
           // headers:{"Content-Type":"multipart/form-data"}
-        }
+        },
       );
       setFirstName("");
       setLastName("");
@@ -41,23 +47,22 @@ const Signup = () => {
       toast.success(response?.data?.message);
       navigate("/login");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
   };
 
-  const handleImage = (e)=>{
+  const handleImage = (e) => {
     // console.log(e.target.files[0]);
 
-    
     let file = e.target.files[0]; //select image from file
-       if (!file) return;
-    setBackendImage(file)
+    if (!file) return;
+    setBackendImage(file);
 
-    let imageUrl = URL.createObjectURL(file)
-    setFrontendImage(imageUrl)
-    
-  }
+    let imageUrl = URL.createObjectURL(file);
+    setFrontendImage(imageUrl);
+  };
 
   return (
     <div className="w-full min-h-screen bg-gray-200 flex justify-center items-center">
@@ -142,9 +147,10 @@ const Signup = () => {
         />
         <button
           type="submit"
+          disabled={loading}
           className="bg-amber-200 py-4 cursor-pointer rounded-lg"
         >
-          Signup
+          {loading ? "Creating account..." : "Signup"}
         </button>
         <p className="text-center">
           Already have an account?{" "}

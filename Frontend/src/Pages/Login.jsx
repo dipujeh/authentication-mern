@@ -7,8 +7,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading,setLoading] = useState(false)
+
   const loginHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://authentication-mern-ca9l.onrender.com/api/login",
@@ -29,6 +33,8 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
+    }finally{
+      setLoading(false);
     }
   };
   return (
@@ -60,7 +66,7 @@ const Login = () => {
           type="submit"
           className="bg-amber-200 py-4 cursor-pointer rounded-lg"
         >
-          Login
+          {loading?"Logging in...":"Login"}
         </button>
         <p className="text-center">
           Does't have an account?{" "}
