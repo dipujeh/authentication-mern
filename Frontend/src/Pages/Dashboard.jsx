@@ -102,7 +102,7 @@ const Dashboard = () => {
           <img
             src={user.profileImg}
             alt="user"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover object-top"
           />
         </div>
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mt-12 sm:mt-16">
