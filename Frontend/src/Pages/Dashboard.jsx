@@ -16,7 +16,7 @@ const Dashboard = () => {
       });
       setUser(response.data.user);
 
-      console.log(response.data.user);
+      // console.log(response.data.user);
     } catch (error) {
       console.log(error);
       navigate("/login");
@@ -94,8 +94,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="w-full ">
-        <img src={user.profileImg} alt="user" className="text-center w-100 h-100 rounded-full border-amber-100"/>
+      <div className="w-full  flex justify-center items-center flex-col">
+        <div className="text-center flex justify-center items-center w-100 h-100 rounded-full border-amber-100">
+        <img src={user.profileImg} alt="user" className="object-cover overflow-hidden"/>
+        </div>
         <h1 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mt-12 sm:mt-16">
           {getGreeting()},{" "}
           <span className="text-purple-600 capitalize">{user.firstName}</span>{" "}
