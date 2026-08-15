@@ -64,6 +64,7 @@ const Login = () => {
         />
         <button
           type="submit"
+          disabled={loading}
           className="bg-amber-200 py-4 cursor-pointer rounded-lg"
         >
           {loading?"Logging in...":"Login"}
